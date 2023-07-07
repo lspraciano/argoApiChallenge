@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "argoapichallenge"
+version = "0.1.0"
+description = "application suggested in a job interview by the company argo"
+authors = ["Lucas Praciano <luskcct@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
