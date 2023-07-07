@@ -8,6 +8,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.100.0"
+dynaconf = "^3.1.12"
+pytest = "^7.4.0"
+uvicorn = "^0.22.0"
+SQLAlchemy = "^2.0.18"
+python-jose = "^3.3.0"
+psycopg2-binary = "^2.9.6"
+passlib = "^1.7.4"
+pydantic = {version = "1.10.1", extras = ["email"]}
 
 
 [build-system]
