@@ -1,7 +1,7 @@
 from dynaconf import Dynaconf, Validator
 
 settings: Dynaconf = Dynaconf(
-    envvar_prefix="GLWAPI",
+    envvar_prefix="ARGOAPI",
     settings_files=[
         './configuration/settings.toml',
         './configuration/.secrets.toml',
@@ -11,7 +11,7 @@ settings: Dynaconf = Dynaconf(
         "development",
         "testing"
     ],
-    env_switcher="GLWAPI_APP_RUNNING_MODE",
+    env_switcher="ARGOAPI_APP_RUNNING_MODE",
     validators=[
         Validator(
             "APP_RUNNING_MODE",

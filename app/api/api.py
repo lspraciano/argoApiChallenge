@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.endpoints import api_router
+from app.core.database.init_db import init_db
 from configuration.configs import settings
 
 
@@ -49,7 +50,8 @@ def register_events(
 ) -> FastAPI:
     @api.on_event("startup")
     async def startup():
-        ...
+        print(f"Running Mode: {settings.APP_RUNNING_MODE}")
+        await init_db()
 
     @api.on_event("shutdown")
     async def shutdown():
