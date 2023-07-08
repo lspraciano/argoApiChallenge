@@ -13,16 +13,7 @@ class UserSchemaBasic(BaseModel):
         orm_mode = True
 
 
-class UserSchemaCreateRequest(BaseModel):
-    name: str
-    email: EmailStr
-
-    class Config:
-        orm_mode = True
-
-
-class UserSchemaCreateResponse(BaseModel):
-    id: int
+class UserSchemaCreate(BaseModel):
     name: str
     email: EmailStr
 
@@ -38,3 +29,10 @@ class UserSchemaUpdate(BaseModel):
 
 class UserSchemaUpdatePassword(BaseModel):
     new_password: str
+
+
+class UserAuthentication(BaseModel):
+    access_token: str
+    token_type: str
+    user_email: str
+    user_id: str

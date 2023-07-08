@@ -1,4 +1,5 @@
 import platform
+from typing import Optional, List
 
 from sqlalchemy.engine.result import Result
 from sqlalchemy.future import select
@@ -11,26 +12,45 @@ from configuration.configs import settings
 
 
 async def create_user_admin() -> None:
+    user_list: Optional[List[UserModel]] = []
+
     async with async_session() as session:
         query: Select = select(UserModel).filter(
-            UserModel.name == settings.ADMIN_USER_NAME
+            UserModel.name == settings.ONE_ADMIN_USER_NAME
         )
         result: Result = await session.execute(query)
         user: UserModel = result.scalars().unique().one_or_none()
 
-    if not user:
-        print("Creating Admin User")
-
-        user: UserModel = UserModel(
-            name=settings.ADMIN_USER_NAME,
-            email=settings.ADMIN_USER_EMAIL,
-            password=generate_hash_password(
-                settings.ADMIN_PASSWORD
+        if not user:
+            user: UserModel = UserModel(
+                name=settings.ONE_ADMIN_USER_NAME,
+                email=settings.ONE_ADMIN_USER_EMAIL,
+                password=generate_hash_password(
+                    settings.ONE_ADMIN_PASSWORD
+                )
             )
-        )
 
-        async with async_session() as session:
-            session.add(user)
+            user_list.append(user)
+
+        query: Select = select(UserModel).filter(
+            UserModel.name == settings.TWO_ADMIN_USER_NAME
+        )
+        result: Result = await session.execute(query)
+        user_2: UserModel = result.scalars().unique().one_or_none()
+
+        if not user_2:
+            user_2: UserModel = UserModel(
+                name=settings.TWO_ADMIN_USER_NAME,
+                email=settings.TWO_ADMIN_USER_EMAIL,
+                password=generate_hash_password(
+                    settings.TWO_ADMIN_PASSWORD
+                )
+            )
+            user_list.append(user_2)
+
+        if user_list:
+            for user in user_list:
+                session.add(user)
             await session.commit()
 
 

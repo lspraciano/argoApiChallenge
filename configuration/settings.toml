@@ -1,9 +1,8 @@
 [default]
 API_URL = "/api"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10080
-ADMIN_USER_ID = "1"
-ADMIN_ROLE_NAME = "admin"
-ADMIN_ROLE_DESC = "administrator system user"
+ONE_ADMIN_USER_ID = "1"
+TWO_ADMIN_USER_ID = "2"
 MAIL_SUPPRESS_SEND = 0
 
 [production]

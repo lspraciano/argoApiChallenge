@@ -10,7 +10,7 @@ def api_factory() -> FastAPI:
     origins: list = ["*"]
 
     current_api: FastAPI = FastAPI(
-        title="GatLab Web - API",
+        title="Argo Challenge - API",
         description="API for the Argo Challenge",
         version="1.0",
         contact={

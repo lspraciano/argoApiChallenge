@@ -27,7 +27,7 @@ async def get_all_users() -> Optional[List[UserModel]]:
     async with async_session() as session:
         query: Select = select(UserModel)
         result: Result = await session.execute(query)
-        users: List[UserModel] = result.scalars().unique().all()
+        users: Optional[List[UserModel]] = list(result.scalars().unique().all())
     return users
 
 

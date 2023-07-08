@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from jose import jwt, JWTError
 
 from app.core.security.jwt_token_manager import oauth2_schema
@@ -30,3 +30,21 @@ async def get_user_id_from_token(
 
     except JWTError:
         raise credential_exception
+
+
+async def admin_authorization(
+        request: Request
+):
+    authorization_exception: HTTPException = HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="unauthorized user for this action"
+    )
+
+    user_id: str = await get_user_id_from_token(
+        token=await oauth2_schema(
+            request
+        )
+    )
+
+    if int(user_id) != 1 and int(user_id) != 2:
+        raise authorization_exception

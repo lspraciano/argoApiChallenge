@@ -1,20 +1,19 @@
 from typing import List, Optional
 
 from fastapi import APIRouter, status, Depends, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic.networks import EmailStr
 from sqlalchemy.exc import IntegrityError
 
 from app.controllers.user_controller import get_user_by_id, create_user, get_all_users, \
     update_user_by_id, authenticate_user
-from app.core.dependencies.deps import get_user_id_from_token
+from app.core.dependencies.deps import get_user_id_from_token, admin_authorization
 from app.core.email.email_manager import send_email_async
 from app.core.security.jwt_token_manager import get_access_token
 from app.core.security.password_manager import generate_password, validate_password_string
 from app.models.user_model import UserModel
-from app.schemas.user_schema import UserSchemaBasic, UserSchemaCreateRequest, UserSchemaCreateResponse, \
-    UserSchemaUpdate, UserSchemaUpdatePassword
+from app.schemas.user_schema import UserSchemaBasic, UserSchemaCreate, \
+    UserSchemaUpdate, UserSchemaUpdatePassword, UserAuthentication
 
 router = APIRouter()
 
@@ -24,7 +23,8 @@ router = APIRouter()
     response_model=List[Optional[UserSchemaBasic]]
 )
 async def get_all_users_(
-        user_id_logged: str = Depends(get_user_id_from_token)
+        user_id_logged: str = Depends(get_user_id_from_token),
+        admin_user=Depends(admin_authorization)
 ):
     users: Optional[List[UserModel]] = await get_all_users()
     if not users:
@@ -39,9 +39,10 @@ async def get_all_users_(
     path="/{user_id}",
     response_model=Optional[UserSchemaBasic]
 )
-async def get_user_(
+async def get_user_by_user_id_(
         user_id: int,
-        user_id_logged: str = Depends(get_user_id_from_token)
+        user_id_logged: str = Depends(get_user_id_from_token),
+        admin_user=Depends(admin_authorization)
 ):
     user: Optional[UserModel] = await get_user_by_id(user_id)
     if not user:
@@ -55,11 +56,12 @@ async def get_user_(
 @router.post(
     path="",
     status_code=status.HTTP_201_CREATED,
-    response_model=UserSchemaCreateResponse
+    response_model=UserSchemaBasic
 )
 async def create_new_user_(
-        user: UserSchemaCreateRequest,
+        user: UserSchemaCreate,
         user_id_logged: str = Depends(get_user_id_from_token),
+        admin_user=Depends(admin_authorization)
 ):
     try:
         password: str = await generate_password()
@@ -84,7 +86,11 @@ async def create_new_user_(
         )
 
 
-@router.post("/authentication")
+@router.post(
+    path="/authentication",
+    status_code=status.HTTP_200_OK,
+    response_model=UserAuthentication
+)
 async def authenticate_user_(
         form_data: OAuth2PasswordRequestForm = Depends(),
 ):
@@ -105,43 +111,38 @@ async def authenticate_user_(
             detail="Deactivated User"
         )
 
-    response = JSONResponse(
-        content={
-            "access_token": get_access_token(
-                sub=str(user.id)
-            ),
-            "token_type": "bearer",
-            "user_email": user.email,
-            "user_id": user.id
-        },
-        status_code=status.HTTP_200_OK
-    )
-
-    return response
+    return {
+        "access_token": get_access_token(
+            sub=str(user.id)
+        ),
+        "token_type": "bearer",
+        "user_email": user.email,
+        "user_id": user.id
+    }
 
 
 @router.patch(
     path="/{user_id}",
     response_model=UserSchemaBasic
 )
-async def update_user_basic_fields_(
+async def update_user_by_user_id(
         user_id: int,
-        user_req: UserSchemaUpdate,
-        user_id_logged: str = Depends(get_user_id_from_token)
+        user_target: UserSchemaUpdate,
+        user_id_logged: str = Depends(get_user_id_from_token),
+        admin_user=Depends(admin_authorization)
 ):
-    if (user_req.status == 0) and (user_id == int(user_id_logged)):
+    if (user_target.status == 0) and (user_id == int(user_id_logged)):
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
             detail="You Can't Disable Yourself"
         )
 
     try:
-
         user_updated: Optional[UserModel] = await update_user_by_id(
             user_id=user_id,
-            name=user_req.name,
-            email=user_req.email,
-            status=user_req.status,
+            name=user_target.name,
+            email=user_target.email,
+            status=user_target.status,
             last_change_owner=int(user_id_logged)
         )
 
@@ -160,12 +161,13 @@ async def update_user_basic_fields_(
 
 
 @router.patch(
-    path="/generate-random-password/{user_id}",
+    path="/reset-password/{user_id}",
     response_model=UserSchemaBasic
 )
-async def generate_random_password_(
+async def reset_user_password_by_user_id_(
         user_id: int,
-        user_id_logged: str = Depends(get_user_id_from_token)
+        user_id_logged: str = Depends(get_user_id_from_token),
+        admin_user=Depends(admin_authorization)
 ):
     new_password: str = await generate_password()
 
@@ -190,10 +192,10 @@ async def generate_random_password_(
 
 
 @router.patch(
-    path="/change-password/{user_id}",
+    path="/update-password/{user_id}",
     response_model=UserSchemaBasic
 )
-async def change_password_(
+async def update_password_(
         user_id: int,
         user: UserSchemaUpdatePassword,
         user_id_logged: str = Depends(get_user_id_from_token)
