@@ -22,6 +22,9 @@ async def post_image_(
         image: ImagePostSchema = Depends(),
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
+    """
+    This route allows registering an image in the database.
+    """
     image.image.file.seek(0, 2)
     file_size: int = image.image.file.tell()
     await image.image.seek(0)
@@ -55,6 +58,10 @@ async def get_image_by_id_image_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to fetch an image from the
+    database by image id.
+    """
     image: ImageModel = await get_image_by_image_id(
         image_id=image_id,
     )
@@ -76,6 +83,9 @@ async def get_all_images_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to fetch all images in the database.
+    """
     images: Optional[List[ImageModel]] = await get_all_images(
         name=images_parameters.name,
         approved_by=images_parameters.approved_by,
@@ -110,6 +120,10 @@ async def get_image_file_by_image_id_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to search for the file referring
+    to an image registered in the database through the image id.
+    """
     image: ImageModel = await get_image_by_image_id(
         image_id=image_id,
     )
@@ -137,6 +151,9 @@ async def handle_approval_images_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to approve or disapprove an image.
+    """
     images_updated: Optional[List[ImageModel]] = []
 
     for image_id in images_to_update.images_ids_list:
@@ -164,6 +181,10 @@ async def get_all_approved_images_(
         images_to_update: ImageApprovalSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
+    """
+    This route allows you to list all approved images
+    that are registered in the database.
+    """
     approved_images: Optional[List[ImageModel]] = await get_all_images(
         approved=1,
     )
@@ -195,6 +216,10 @@ async def get_approved_image_file_by_image_id_(
         image_id: int,
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
+    """
+    This route allows you to fetch the file of an
+    approved image from through the image ID.
+    """
     image: ImageModel = await get_image_by_image_id(
         image_id=image_id,
         approved=1

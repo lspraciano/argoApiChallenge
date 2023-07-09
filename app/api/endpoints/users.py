@@ -26,6 +26,9 @@ async def get_all_users_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows to list all database users
+    """
     users: Optional[List[UserModel]] = await get_all_users()
     if not users:
         raise HTTPException(
@@ -44,6 +47,9 @@ async def get_user_by_user_id_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to list a database user through its ID
+    """
     user: Optional[UserModel] = await get_user_by_id(user_id)
     if not user:
         raise HTTPException(
@@ -63,6 +69,10 @@ async def create_new_user_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route will create a new user in the database. This user
+    will receive a temporary password in the email registered to him.
+    """
     try:
         password: str = await generate_password()
         new_user: Optional[UserModel] = await create_user(
@@ -94,6 +104,10 @@ async def create_new_user_(
 async def authenticate_user_(
         form_data: OAuth2PasswordRequestForm = Depends(),
 ):
+    """
+    This route allows a user registered in the database to
+    obtain an access token.
+    """
     user: Optional[UserModel] = await authenticate_user(
         email=EmailStr(form_data.username),
         password=form_data.password
@@ -131,6 +145,9 @@ async def update_user_by_user_id_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows you to update a user's record through their ID.
+    """
     if (user_target.status == 0) and (user_id == int(user_id_logged)):
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
@@ -169,6 +186,11 @@ async def reset_user_password_by_user_id_(
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
+    """
+    This route allows resetting the password of a user registered
+    in the database. The generated password is sent to the target
+    user's registration email.
+    """
     new_password: str = await generate_password()
 
     user_updated: Optional[UserModel] = await update_user_by_id(
@@ -187,7 +209,6 @@ async def reset_user_password_by_user_id_(
         email_to=[f"{user_updated.email}"],
         body=f"Your new password is: {new_password}"
     )
-
     return user_updated
 
 
@@ -200,6 +221,11 @@ async def update_password_(
         user: UserSchemaUpdatePassword,
         user_id_logged: str = Depends(get_user_id_from_token)
 ):
+    """
+    This route allows the user to change his password. The new
+    password must contain at least 8 characters, uppercase
+    letters, special characters and numbers.
+    """
     if user_id != int(user_id_logged):
         raise HTTPException(
             status_code=status.HTTP_406_NOT_ACCEPTABLE,
@@ -219,5 +245,4 @@ async def update_password_(
         password=user.new_password,
         last_change_owner=int(user_id_logged)
     )
-
     return user_updated
