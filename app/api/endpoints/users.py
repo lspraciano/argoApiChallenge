@@ -125,7 +125,7 @@ async def authenticate_user_(
     path="/{user_id}",
     response_model=UserSchemaBasic
 )
-async def update_user_by_user_id(
+async def update_user_by_user_id_(
         user_id: int,
         user_target: UserSchemaUpdate,
         user_id_logged: str = Depends(get_user_id_from_token),
@@ -161,7 +161,7 @@ async def update_user_by_user_id(
 
 
 @router.patch(
-    path="/reset-password/{user_id}",
+    path="/password/reset/{user_id}",
     response_model=UserSchemaBasic
 )
 async def reset_user_password_by_user_id_(
@@ -192,7 +192,7 @@ async def reset_user_password_by_user_id_(
 
 
 @router.patch(
-    path="/update-password/{user_id}",
+    path="/password/update/{user_id}",
     response_model=UserSchemaBasic
 )
 async def update_password_(
