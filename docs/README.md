@@ -1,4 +1,4 @@
-# Desafio Seleção Argo - API
+# Desafio Argo - API
 
 O desafio pedia para desenvolvermos uma API atendendo alguns requisitos,
 dentre eles, ela deveria ser desenvolvida usando DJANGO. Vou contar um spoiler...
