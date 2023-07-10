@@ -16,7 +16,7 @@ desenvolver usando FASTAPI. Espero que desfrutem deste trabalho.
     ```
         http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/
     ``` 
-- Disponibilizamos dois usuário administradores,para representar,
+- Disponibilizamos dois usuários administradores para representar,
 o casal solicitado no desafio. Os dados deles são:
 
     ```
