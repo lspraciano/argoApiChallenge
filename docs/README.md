@@ -6,7 +6,7 @@ por não ter prática com este framework e ter aproximadamente 48 horas, resolvi
 desenvolver usando FASTAPI. Espero que desfrutem deste trabalho.
 
 ## 📦 Status Do Projeto
-- Em Produção
+- Em Desenvolvimento
 
 ## 📌 Versão Atual
 - 1.00
@@ -21,6 +21,7 @@ na sua máquina local.
 - Python 3.10.2 +
 - Poetry
 - Git
+- PostgreSQL
 
 ### 🔧 Instalação
 
