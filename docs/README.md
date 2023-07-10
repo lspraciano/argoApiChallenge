@@ -21,7 +21,7 @@ aprovação elas ficarão disponíveis para todos da plataforma.
 
 ### Módulo de Usuários
 1. Criar Usuários
-    Apenas usuário administradores podem criar novos usuários.
+    Apenas usuário administradores podem criar  usuários.
     Os novos usuário receberão uma senha temporária em seu e-mail
     de cadastro.
 2. Autenticação
@@ -69,10 +69,11 @@ aprovação elas ficarão disponíveis para todos da plataforma.
     poderão excluir o comentário. A exclusão é lógica.
 
 ## 💻 Aplicação Online
-- A aplicação foi disponibilizada no endereço:
+- A aplicação foi disponibilizada na AWS no endereço:
     ```
         http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/
     ``` 
+
 - Disponibilizamos dois usuários administradores para representar,
 o casal solicitado no desafio. Os dados deles são:
 
@@ -87,12 +88,11 @@ o casal solicitado no desafio. Os dados deles são:
     ```
   Com essas credenciais você consegue testar todas as rotas.
   E aí, vamos testar?
+  <br></br>
 
-    ```
-    Acesso para Documentação das Rotas
-  
-        http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/docs  
-    ```
+    Click [aqui](http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/docs) para ver a documentação das rotas
+    <br></br>
+
   A documentação acima é toda funcional. Desta forma você não
   vai precisar de outras ferramentas para testar as funcionalidades
 

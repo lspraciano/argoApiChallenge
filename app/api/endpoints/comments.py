@@ -26,6 +26,17 @@ async def post_comment_(
     """
     This route allows you to register a comment for a given image.
     """
+    image_target: Optional[ImageModel] = await get_image_by_image_id(
+        image_id=comment.image_id,
+        status=1
+    )
+
+    if not image_target:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Image Not Found"
+        )
+
     try:
         comment: CommentModel = await create_comment(
             content=comment.content,
