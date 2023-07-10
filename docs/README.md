@@ -11,7 +11,36 @@ desenvolver usando FASTAPI. Espero que desfrutem deste trabalho.
 ## 📌 Versão Atual
 - 1.00
 
-## 🚀 Começando
+## 💻 Aplicação Online
+- A aplicação foi disponibilizada no endereço:
+    ```
+        http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/
+    ``` 
+- Disponibilizamos dois usuário administradores,para representar,
+o casal solicitado no desafio. Os dados deles são:
+
+    ```
+    Admin 1
+        e-mail: emailfake@email.com
+        senha: abcd1234
+  
+    Admin 2
+        e-mail: emailfake2@email.com
+        senha: abcd1234  
+    ```
+  Com essas credenciais você consegue testar todas as rotas.
+  E aí, vamos testar?
+
+    ```
+    Acesso para Documentação das Rotas
+  
+        http://ec2-18-231-154-125.sa-east-1.compute.amazonaws.com/docs  
+    ```
+  A documentação acima é toda funcional. Desta forma você não
+  vai precisar de outras ferramentas para testar as funcionalidades
+
+
+## 🚀 Clonando Repositório
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação
 na sua máquina local.
@@ -107,3 +136,4 @@ na sua máquina local.
       ````
            http://127.0.0.1:8000/docs
       ````
+
