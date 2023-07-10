@@ -11,6 +11,63 @@ desenvolver usando FASTAPI. Espero que desfrutem deste trabalho.
 ## 📌 Versão Atual
 - 1.00
 
+## 🎨 Funcionalidades
+
+### Resumo
+Esta aplicação visa o upload de images. Como uma rede social, estas
+imagens poderão receber comentários e curtidas. As imagens postadas
+pelos usuários devem ser aprovadas pelos administradores. Após a 
+aprovação elas ficarão disponíveis para todos da plataforma.
+
+### Módulo de Usuários
+1. Criar Usuários
+    Apenas usuário administradores podem criar novos usuários.
+    Os novos usuário receberão uma senha temporária em seu e-mail
+    de cadastro.
+2. Autenticação
+    Apenas usuários cadastrados podem se autenticar.
+3. Listar Todos os Usuários
+    Apenas os administradores possuem acesso a este recurso
+4. Listar Único Usuário
+    Apenas os administradores possuem acesso a este recurso
+5. Atualizar Usuário
+    Apenas os administradores possuem acesso a este recurso
+6. Resetar Senha de um Usuário
+    Apenas os administradores podem usar esse recurso. Ao
+    resetar a senha de um usuário, o alvo receberá uma senha
+    aleatória em seu e-mail de cadastro.
+7. Trocar Senha
+    Este recurso estará disponível para todos os usuários
+    devidamente autenticados
+
+### Módulo Imagens
+1. Postar Imagens
+    Este recurso é liberado para todos os usuários autenticados
+2. Lista Todas Imagens
+    Apenas usuários administradores podem usar este recurso
+3. Listar Única Imagem
+    Apenas usuários administradores podem usar este recurso
+4. Listar o Arquivo de Imagem
+    Apenas usuários administradores podem usar este recurso
+5. Aprovar uma Imagem
+    Apenas usuários administradores podem usar este recurso
+6. Listar o Arquivo de Imagem Aprovadas
+    Este recurso é liberado para todos os usuários autenticados
+7. Listar Todas as Imagens Aprovadas
+    Este recurso é liberado para todos os usuários autenticados
+
+### Módulo Comentários
+1. Listar Todos os Comentários de Uma Imagem
+    Este recurso é liberado para todos os usuários autenticados
+2. Postar Comentário
+    Através deste recuso os usuários podem postar comentários
+    para imagens previamente aprovadas. Este recurso está
+    disponível para todos os usuários devidamente autenticados
+3. Atualizar Comentário
+    Apenas o usuário proprietário do comentário poderá alterar o 
+    conteúdo, mas tanto o proprietário quanto os administradores
+    poderão excluir o comentário. A exclusão é lógica.
+
 ## 💻 Aplicação Online
 - A aplicação foi disponibilizada no endereço:
     ```
