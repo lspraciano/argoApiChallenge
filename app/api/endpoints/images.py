@@ -8,7 +8,8 @@ from app.controllers.image_controller import create_image, get_image_by_image_id
     update_images_by_image_id
 from app.core.dependencies.deps import get_user_id_from_token, admin_authorization
 from app.models.image_model import ImageModel
-from app.schemas.image_schema import ImageSchemaBasic, ImageByIdQueryParamsSchema, ImagePostSchema, ImageApprovalSchema
+from app.schemas.image_schema import ImageSchemaBasic, ImageByIdQueryParamsSchema, ImagePostSchema, ImageApprovalSchema, \
+    ImageResponse, ImageIdSchema
 
 router = APIRouter()
 
@@ -54,7 +55,7 @@ async def post_image_(
     response_model=Optional[ImageSchemaBasic]
 )
 async def get_image_by_id_image_(
-        image_id: int,
+        image_id: ImageIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
@@ -103,7 +104,7 @@ async def get_all_images_(
 @router.get(
     path="/get-file/{image_id}",
     response_class=StreamingResponse,
-    response_model=bytes,
+    response_model=ImageResponse,
     responses={
         200: {
             "content": {
@@ -111,12 +112,12 @@ async def get_all_images_(
                 "image/jpeg": {},
                 "image/gif": {}
             },
-            "description": "Return an image.",
+            "description": "Return an approved image.",
         },
     },
 )
 async def get_image_file_by_image_id_(
-        image_id: int,
+        image_id: ImageIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
@@ -200,7 +201,7 @@ async def get_all_approved_images_(
 @router.get(
     path="/handle-approve/approved/get-file/{image_id}",
     response_class=StreamingResponse,
-    response_model=bytes,
+    response_model=ImageResponse,
     responses={
         200: {
             "content": {
@@ -213,7 +214,7 @@ async def get_all_approved_images_(
     },
 )
 async def get_approved_image_file_by_image_id_(
-        image_id: int,
+        image_id: ImageIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
     """

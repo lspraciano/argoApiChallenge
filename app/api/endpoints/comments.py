@@ -9,7 +9,8 @@ from app.controllers.image_controller import get_image_by_image_id
 from app.core.dependencies.deps import get_user_id_from_token
 from app.models.comment_model import CommentModel
 from app.models.image_model import ImageModel
-from app.schemas.comment_schema import CommentSchemaBasic, CommentCreateSchema, CommentUpdateSchema
+from app.schemas.comment_schema import CommentSchemaBasic, CommentCreateSchema, CommentUpdateSchema, CommentIdSchema
+from app.schemas.image_schema import ImageIdSchema
 
 router = APIRouter()
 
@@ -67,7 +68,7 @@ async def post_comment_(
     response_model=Optional[CommentSchemaBasic]
 )
 async def update_comment_by_comment_id_(
-        comment_id: int,
+        comment_id: CommentIdSchema,
         comment: CommentUpdateSchema = Depends(),
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
@@ -119,7 +120,7 @@ async def update_comment_by_comment_id_(
     response_model=Optional[List[CommentSchemaBasic]]
 )
 async def get_all_comments_by_image_id_(
-        image_id: int,
+        image_id: ImageIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
     """

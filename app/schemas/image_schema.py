@@ -32,3 +32,11 @@ class ImagePostSchema(BaseModel):
 class ImageApprovalSchema(BaseModel):
     images_ids_list: list[int]
     approval_result: int
+
+
+class ImageResponse(BaseModel):
+    file_data: bytes
+
+
+class ImageIdSchema(int):
+    pass

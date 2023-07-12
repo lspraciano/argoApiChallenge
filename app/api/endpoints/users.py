@@ -13,7 +13,7 @@ from app.core.security.jwt_token_manager import get_access_token
 from app.core.security.password_manager import generate_password, validate_password_string
 from app.models.user_model import UserModel
 from app.schemas.user_schema import UserSchemaBasic, UserSchemaCreate, \
-    UserSchemaUpdate, UserSchemaUpdatePassword, UserAuthentication
+    UserSchemaUpdate, UserSchemaUpdatePassword, UserAuthentication, UserIdSchema
 
 router = APIRouter()
 
@@ -43,7 +43,7 @@ async def get_all_users_(
     response_model=Optional[UserSchemaBasic]
 )
 async def get_user_by_user_id_(
-        user_id: int,
+        user_id: UserIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
@@ -140,7 +140,7 @@ async def authenticate_user_(
     response_model=UserSchemaBasic
 )
 async def update_user_by_user_id_(
-        user_id: int,
+        user_id: UserIdSchema,
         user_target: UserSchemaUpdate,
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
@@ -182,7 +182,7 @@ async def update_user_by_user_id_(
     response_model=UserSchemaBasic
 )
 async def reset_user_password_by_user_id_(
-        user_id: int,
+        user_id: UserIdSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
         admin_user=Depends(admin_authorization)
 ):
@@ -217,7 +217,7 @@ async def reset_user_password_by_user_id_(
     response_model=UserSchemaBasic
 )
 async def update_password_(
-        user_id: int,
+        user_id: UserIdSchema,
         user: UserSchemaUpdatePassword,
         user_id_logged: str = Depends(get_user_id_from_token)
 ):

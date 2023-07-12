@@ -27,3 +27,7 @@ class CommentCreateSchema(BaseModel):
 class CommentUpdateSchema(BaseModel):
     content: Optional[str] = None
     status: Optional[int] = None
+
+
+class CommentIdSchema(int):
+    pass

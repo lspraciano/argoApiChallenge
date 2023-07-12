@@ -36,3 +36,7 @@ class UserAuthentication(BaseModel):
     token_type: str
     user_email: str
     user_id: str
+
+
+class UserIdSchema(int):
+    pass
