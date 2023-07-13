@@ -1,5 +1,6 @@
-from typing import Optional
+from typing import Optional, Annotated
 
+from fastapi import Path
 from pydantic import BaseModel, EmailStr
 
 
@@ -26,9 +27,15 @@ class UserSchemaUpdate(BaseModel):
     email: Optional[EmailStr] = None
     status: Optional[int] = None
 
+    class Config:
+        orm_mode = True
+
 
 class UserSchemaUpdatePassword(BaseModel):
     new_password: str
+
+    class Config:
+        orm_mode = True
 
 
 class UserAuthentication(BaseModel):
@@ -37,6 +44,15 @@ class UserAuthentication(BaseModel):
     user_email: str
     user_id: str
 
+    class Config:
+        orm_mode = True
 
-class UserIdSchema(int):
-    pass
+
+UserIdSchema = Annotated[
+    int,
+    Path(
+        title="User ID",
+        description="The ID of the User",
+        ge=1
+    )
+]

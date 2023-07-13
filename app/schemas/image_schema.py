@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Optional, Annotated
 
-from fastapi import Query
+from fastapi import Query, Path
 from fastapi import UploadFile, File
 from pydantic import BaseModel
 
@@ -38,5 +38,11 @@ class ImageResponse(BaseModel):
     file_data: bytes
 
 
-class ImageIdSchema(int):
-    pass
+ImageIdSchema = Annotated[
+    int,
+    Path(
+        title="Image ID",
+        description="The ID of the Image",
+        ge=1
+    )
+]
