@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends, HTTPException, Body
 from sqlalchemy.exc import IntegrityError
 
 from app.controllers.comment_controller import create_comment, get_all_comments_by_image_id, \
@@ -21,7 +21,7 @@ router = APIRouter()
     response_model=CommentSchemaBasic
 )
 async def post_comment_(
-        comment: CommentCreateSchema = Depends(),
+        comment: CommentCreateSchema,
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
     """
@@ -69,7 +69,7 @@ async def post_comment_(
 )
 async def update_comment_by_comment_id_(
         comment_id: CommentIdSchema,
-        comment: CommentUpdateSchema = Depends(),
+        comment: CommentUpdateSchema = Body(),
         user_id_logged: str = Depends(get_user_id_from_token),
 ):
     """
